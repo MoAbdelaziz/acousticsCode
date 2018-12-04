@@ -20,14 +20,17 @@ M0 = a**3 * rho     # kg, particle mass scale
 N    = 2     # Number of particles
 Nt   = 8000  # Number of timesteps
 dt   = T0  # Duration of one step
-Rcut = 10*A0  # Cutoff distance for interactions
+rCut = 10*A0  # Cutoff distance for interactions
 
 #################
 ### Functions ###
 #################
 
-# Initialize particles in a box of size 2*Rcut
-def initialize():
+# Initialize particles in a box of size 2*rCut
+def initialize(N,rCut):
+	x = np.linspace(-rCut,rCut,N)
+	gx,gy,gz = np.meshgrid(x,x,x)
+	pos = np.zeros((3,N,Nt))
 	return
 	
 # Calculate interparticle distances accounting for periodic boundaries
@@ -61,7 +64,7 @@ def	mobility():
 #################
 ### Main Loop ###
 #################
-
+initialize(3,1)
 # Calculate velocities (superpose torque-caused flows with calculation of translation mobility matrices on forces)
 
 # Update positions
