@@ -5,10 +5,10 @@ import pylab as plt
 ### Parameters ###
 lam = 1.          # wavelength (define as unity)
 k   = 2*np.pi/lam # wavenumber
-z   = 3           # Distance from P0 to P1 in wavelengths
+z   = 20           # Distance from P0 to P1 in wavelengths
 
 ### Generate Scalar Field in Plane P0 ###
-P0L = 5. # Side length of P0 in wavelengths
+P0L = 5.6 # Side length of P0 in wavelengths
 P0N = 100 # Number of points per side
 P1L = P0L
 P1N = P0N
