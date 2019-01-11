@@ -22,11 +22,11 @@ def plotData(data, N):
 	#data:assumed 2D data with real/imaginary (columns are: x,y,real,imag)
 	
 	# Interpolation
-	dataX = testData[:,0]
-	dataY = testData[:,1]
+	dataX = data[:,0]
+	dataY = data[:,1]
 	dataCoords = np.stack((dataX,dataY),axis=1)
-	dataReal   = testData[:,2]
-	dataImag   = testData[:,3]
+	dataReal   = data[:,2]
+	dataImag   = data[:,3]
 	
 	dataInt    = dataReal**2 + dataImag**2
 	dataPhs    = np.arctan2(dataImag,dataReal)
@@ -59,6 +59,4 @@ def testData():
 	dataVals2   = -10*np.random.rand(10000,1)
 	testData = np.concatenate((dataCoords,dataVals1,dataVals2),axis=1)
 	return testData
-	
-testData = testData()
-plotData(testData,50)
+
