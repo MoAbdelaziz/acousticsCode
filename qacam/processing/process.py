@@ -8,12 +8,13 @@ def saveData(data):
 	### Save the current run, automatically dating and numbering the file
 	i = 1
 	today = str(date.today())
+	direc = 'data/'
 	filename =  today+"_N%s.npy"
 	
-	while os.path.exists(filename % i):
+	while os.path.exists(direc+filename % i):
 		i +=1
 	
-	np.save(filename % i, data)
+	np.save(direc+filename % i, data)
 	return
 
 def plotData(data, N):
@@ -39,16 +40,21 @@ def plotData(data, N):
 
 	interpInt = spi.griddata(dataCoords, dataInt, interpCoords, method = 'cubic')
 	interpPhs = spi.griddata(dataCoords, dataPhs, interpCoords, method = 'cubic')
-	
+	print np.nanmin(dataPhs)
+	print np.nanmax(dataPhs)
 	# Plotting
-	fig, axes = plt.subplots(2,2, sharex='col',sharey='row')
+	fig, axes = plt.subplots(2,2, sharex='col',sharey='row',figsize=(15,15))
 	axes[0,0].set_title('Intensity Data')
-	axes[0,0].scatter(dataX,dataY, c = dataInt) # Intensity Data
-	axes[1,0].scatter(interpCoords[:,0],interpCoords[:,1], c = interpInt) #Interpolated
-	
+	axes[0,0].scatter(dataX,dataY, c = dataInt, cmap='inferno') # Intensity Data
+	p1=axes[1,0].scatter(interpCoords[:,0],interpCoords[:,1], c = interpInt, cmap='inferno') #Interpolated
+	#fig.colorbar(p1,axes[1,0])
+
 	axes[0,1].set_title('Phase Data')
-	axes[0,1].scatter(dataX,dataY, c = dataPhs) # Phase Data
-	axes[1,1].scatter(interpCoords[:,0],interpCoords[:,1], c = interpPhs) #Interpolated
+	axes[0,1].scatter(dataX,dataY, c = dataPhs, cmap='hsv') # Phase Data
+	p2=axes[1,1].scatter(interpCoords[:,0],interpCoords[:,1], c = interpPhs, cmap='hsv') #Interpolated
+	#fig.colorbar(p2,axes[1,1])
+	axes[0,0].invert_yaxis() # Invert y-axes since acam uses positive y-axis downward
+	axes[1,0].invert_yaxis()
 	plt.show()
 	return
 	
@@ -59,4 +65,8 @@ def testData():
 	dataVals2   = -10*np.random.rand(10000,1)
 	testData = np.concatenate((dataCoords,dataVals1,dataVals2),axis=1)
 	return testData
+
+if __name__ == "__main__":
+	f = np.load('test.npy')
+	plotData(f,100)
 
