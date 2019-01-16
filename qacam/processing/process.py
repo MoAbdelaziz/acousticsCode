@@ -18,7 +18,7 @@ def saveData(data):
 	np.save(direc+filename % i, data)
 	return
 
-def plotData(data, N):
+def plotData(data, N, levels = 100):
 	### Plot intensity and phase data on interpolated grid 
 	#N: interpolation points in each direction 
 	#data:assumed 2D data with real/imaginary (columns are: x,y,real,imag)
@@ -49,7 +49,8 @@ def plotData(data, N):
 	fig, axes = plt.subplots(2,2, sharex='col',sharey='row',figsize=(15,15))
 	axes[0,0].set_title('Intensity Data')
 	p1=axes[0,0].scatter(dataX,dataY, c = dataInt, cmap='inferno') # Intensity Data
-	p2=axes[1,0].scatter(interpCoords[:,0],interpCoords[:,1], c = interpInt, cmap='inferno') #Interpolated
+	#p2=axes[1,0].scatter(interpCoords[:,0],interpCoords[:,1], c = interpInt, cmap='inferno') #Interpolated
+	p2 = axes[1,0].contourf(interpCoords[:,0].reshape(N,N),interpCoords[:,1].reshape(N,N),  interpInt.reshape(N,N), levels,cmap='inferno') #Interpolated
 	
 	divider = make_axes_locatable(axes[0,0]) # Ugly block to make colorbars work
 	cax = divider.append_axes('right',size='5%',pad=.05)
@@ -60,7 +61,8 @@ def plotData(data, N):
 	
 	axes[0,1].set_title('Phase Data')
 	p1=axes[0,1].scatter(dataX,dataY, c = dataPhs, cmap='hsv') # Phase Data
-	p2=axes[1,1].scatter(interpCoords[:,0],interpCoords[:,1], c = interpPhs, cmap='hsv') #Interpolated
+	#p2=axes[1,1].scatter(interpCoords[:,0],interpCoords[:,1], c = interpPhs, cmap='hsv') #Interpolated
+	p2 = axes[1,1].contourf(interpCoords[:,0].reshape(N,N),interpCoords[:,1].reshape(N,N),  interpPhs.reshape(N,N),levels, cmap='hsv') #Interpolated
 	
 	divider = make_axes_locatable(axes[0,1])
 	cax = divider.append_axes('right',size='5%',pad=.05)
