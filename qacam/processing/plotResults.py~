@@ -1,0 +1,18 @@
+import numpy as np
+import scipy as sp
+import os
+from datetime import date
+
+def saveData(data):
+	# Save the current run, automatically dating and numbering the file
+	i = 1
+	today = str(date.today())
+	filename =  today+"_N%s.npy"
+	
+	while os.path.exists(filename % i):
+		i +=1
+	
+	np.save(filename % i, data)
+	return
+
+
