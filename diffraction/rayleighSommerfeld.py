@@ -5,7 +5,8 @@ import pylab as plt
 ### Parameters ###
 lam = 1.          # wavelength (define as unity)
 k   = 2*np.pi/lam # wavenumber
-z   = 20           # Distance from P0 to P1 in wavelengths
+z   = 5	           # Distance from P0 to P1 in wavelengths
+# P0 is the diffraction plane and P1 is the imaging plane
 
 ### Generate Scalar Field in Plane P0 ###
 P0L = 5.6 # Side length of P0 in wavelengths
@@ -36,7 +37,16 @@ def threeHoles(x0,y0,holeSize,sep):
 	h3 = np.sign(1 - np.sign((x0-x3)**2 + (y0-y3)**2 -holeSize**2 ))
 	return h1+h2+h3
 
-u0 = threeHoles(x0[:,None],y0[None,:],.1,1)
+def twoSlits(x0,y0,slitWidth,slitHeight,sep):
+  s1 = (-sep/2-slitWidth/2 < x0) & (x0<-sep/2+slitWidth/2) & (-slitHeight/2<y0)& (y0<slitHeight/2)
+  s2 = (+sep/2-slitWidth/2 < x0) & (x0<+sep/2+slitWidth/2) & (-slitHeight/2<y0)& (y0<slitHeight/2)
+  result = (s1) | (s2)
+  plt.imshow(np.transpose(result))
+  return result
+
+u0 = twoHoles(x0[:,None],y0[None,:],.2,1)
+#u0 = threeHoles(x0[:,None],y0[None,:],.1,1)
+u0 = twoSlits(x0[:,None],y0[None,:],.2,5,1)
 ### Generate Results in Plane P1 ###
 
 x1  = np.linspace(-P1L/2,P1L/2,P1N)
@@ -49,5 +59,9 @@ l= z**2+(x0[:,None,None,None] - x1[None,None,:,None])**2 + (y0[None,:,None,None]
 u1  = (z/lam) * np.sum( u0[:,:,None,None] * (1/(k*l) - 1j) * np.exp(1j * k *l) / l**2, axis=(0,1), dtype=complex)
 
 
-plt.imshow(np.abs(u1))
+plt.figure()
+plt.xlabel('x/lambda')
+plt.ylabel('y/lambda')
+plt.imshow(np.abs(np.transpose(u1)), extent=[-P0L/2,P0L/2,-P0L/2,P0L/2],interpolation='none')
+
 plt.show()
