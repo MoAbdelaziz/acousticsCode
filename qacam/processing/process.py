@@ -18,11 +18,13 @@ def saveData(data):
 	np.save(direc+filename % i, data)
 	return
 
-def plotData(data, N, levels = 100):
+def plotData(data, N, levels = 100, intensityScale = 'sqrt'):
 	### Plot intensity and phase data on interpolated grid 
 	#N: interpolation points in each direction 
 	#data:assumed 2D data with real/imaginary (columns are: x,y,real,imag)
-	
+	#intensityScale = 
+			# 'linear'; default display
+			# 'log'   ; take log of intensity before plotting 
 	# Interpolation
 	dataX = data[:,0]
 	dataY = data[:,1]
@@ -30,7 +32,17 @@ def plotData(data, N, levels = 100):
 	dataReal   = data[:,2]
 	dataImag   = data[:,3]
 	
-	dataInt    = dataReal**2 + dataImag**2
+	dataInt = dataReal**2 + dataImag**2
+
+	if intensityScale =='linear':
+		dataInt = dataReal**2 + dataImag**2
+
+	if intensityScale=='log':
+		dataInt = np.log(dataReal**2+dataImag**2)
+
+	if intensityScale=='sqrt':
+		 dataInt = np.sqrt(dataReal**2+dataImag**2)
+
 	dataPhs    = np.arctan2(dataImag,dataReal)
 	
 	interpX = np.linspace(np.amin(dataX), np.amax(dataX), num=N)
