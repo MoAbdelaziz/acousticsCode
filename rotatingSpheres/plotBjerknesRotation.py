@@ -9,7 +9,7 @@ import re
 
 Writer = animation.writers['ffmpeg']
 writer = Writer(fps = 15, metadata=dict(artist='Me'),bitrate=1800)
-fn = 'Np20Nt10000dt.01icrandO20.npy'
+fn = 'Np20Nt10000dt0.01icrandO0.npy'
 
 
 a = 1.6*10**(-6)# particle radius, everything in SI units for now
@@ -67,6 +67,7 @@ def init():
 def animate(i):
 	#title.set_text(str(i*dt))
 	patches=[]
+	[p.remove() for p in reversed(ax.patches)] # Remove drawings from all previous time steps so that graphics don't overlap (basically blit=True but works on video output as well)
 	for n in range(Np):
 		x = pos[n,i,0]
 		z = pos[n,i,2]
@@ -75,7 +76,7 @@ def animate(i):
 
 	return patches
 # Call the animator
-animxz = animation.FuncAnimation(fig, animate, init_func=init, frames=np.arange(0,Nt,div,dtype=int),interval= interval,blit=True)
+animxz = animation.FuncAnimation(fig, animate, init_func=init, frames=np.arange(0,Nt,div,dtype=int),interval= interval,blit=False)
 plt.show()
 
 
