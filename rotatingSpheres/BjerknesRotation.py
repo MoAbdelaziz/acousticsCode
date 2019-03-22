@@ -20,7 +20,7 @@ writer = animation.ImageMagickFileWriter()
 # 5) Diffusion
 # 6) Excluded volume (needs improvement; currently calculating only for 2 particles at a time, should check ALL particles at once and correct them)
 
-Np = 10# Number of particles
+Np = 20# Number of particles
 Nt = 10000 # Number of time steps
 dt = .01 # currently in seconds... estimate for typical time taken to travel one particle radius is ________
 interval = 2 #ms between frames for animations
