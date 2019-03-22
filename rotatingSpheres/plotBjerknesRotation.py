@@ -7,17 +7,22 @@ import pylab as plt
 from matplotlib import animation
 import re
 
-writer = animation.ImageMagickFileWriter()
+Writer = animation.writers['ffmpeg']
+writer = Writer(fps = 15, metadata=dict(artist='Me'),bitrate=1800)
+fn = 'Np2Nt10000dt0.01icrandO0.npy'
+
 
 a = 1.6*10**(-6)# particle radius, everything in SI units for now
 lims = 20*a
-Np=20
-Nt = 10000 
-dt = .01
-interval = 2 #ms between frames
+interval = 2 #ms between frame
+pos = np.load(fn)
+div = 10 # divider for how many timesteps to render
 
-pos = np.load('Np20Nt10000dt.01rand.npy')
-  
+# Extract the Np,Nt,dt, 
+Np = int(fn[fn.find('Np')+len('Np'):fn.rfind('Nt')])
+Nt = int(fn[fn.find('Nt')+len('Nt'):fn.rfind('dt')])
+dt = float(fn[fn.find('dt')+len('dt'):fn.rfind('ic')])
+
 # Plot test results
 lims /=a
 pos /= a # Normalize positions by particle radius
@@ -25,6 +30,7 @@ pos /= a # Normalize positions by particle radius
 fig = plt.figure() #XZ Plots (torque is in y)
 ax = plt.axes(xlim=(-lims,lims),ylim=(-lims,lims))
 s = ((ax.get_window_extent().width  / (2*lims) *20/fig.dpi) ** 2) #marker sizes scaled for plot (not scatter), trial and error
+ax.set_title('XZ Plane '+ fn)
 
 for n in range(Np):
 	plt.plot(pos[n,:,0],pos[n,:,2],alpha=0.5)
@@ -44,14 +50,15 @@ plt.scatter(pos[:,-1,0],pos[:,-1,1],marker='s',s=s) # Highlight ending points
 plt.show()
 
 
-## New method with circle
+## ANIMATIONS: New method with circle
 # Set up figure for animation (XZ)
 fig = plt.figure()
 ax = plt.axes(xlim=(-lims,lims),ylim=(-lims,lims))
 ax.set_aspect(1)
 title = ax.text(0,lims, "", bbox={'facecolor':'w', 'alpha':0.5, 'pad':5}, ha="center")
-plt.xlabel('x')
-plt.ylabel('z')
+plt.xlabel('x, particle radii')
+plt.ylabel('z, particle radii')
+ax.set_title('XZ Plane '+ fn)
 def init():
 	return []
       
@@ -67,18 +74,17 @@ def animate(i):
 
 	return patches
 # Call the animator
-anim = animation.FuncAnimation(fig, animate, init_func=init, frames=Nt,interval= interval,blit=True)
+anim = animation.FuncAnimation(fig, animate, init_func=init, frames=int(Nt/div),interval= interval,blit=True)
 plt.show()
-#anim.save('xz.mp4',writer=writer)
+anim.save(fn+'xz.mp4',writer=writer)
 
 # Set up figure for animation (XY)
 fig = plt.figure()
 ax = plt.axes(xlim=(-lims,lims),ylim=(-lims,lims))
 ax.set_aspect(1)
-title = ax.text(0,lims, "", bbox={'facecolor':'w', 'alpha':0.5, 'pad':5},
-                transform=ax.transAxes, ha="center")
-plt.xlabel('x')
-plt.ylabel('y')
+ax.set_title('XY Plane '+ fn)
+plt.xlabel('x, particle radii')
+plt.ylabel('y, particle radii')
 def init():
 	return []
       
@@ -93,9 +99,9 @@ def animate(i):
 
 	return patches
 # Call the animator
-anim = animation.FuncAnimation(fig, animate, init_func=init, frames=Nt,interval= interval,blit=True)
+anim = animation.FuncAnimation(fig, animate, init_func=init, frames=int(Nt/div),interval= interval,blit=True)
 plt.show()
-#anim.save('xy.gif',writer=writer)
+anim.save(fn+'xy.mp4',writer=writer)
 	
 # Other useful analytics
 fig,axes = plt.subplots(3,1 , sharex=True)

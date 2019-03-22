@@ -20,7 +20,7 @@ writer = animation.ImageMagickFileWriter()
 # 5) Diffusion
 # 6) Excluded volume (needs improvement; currently calculating only for 2 particles at a time, should check ALL particles at once and correct them)
 
-Np = 2# Number of particles
+Np = 10# Number of particles
 Nt = 10000 # Number of time steps
 dt = .01 # currently in seconds... estimate for typical time taken to travel one particle radius is ________
 interval = 2 #ms between frames for animations
@@ -31,7 +31,7 @@ rhop = 1180
 etam = 10**(-3)
 cm = 1500
 cp = 1350
-Omega =20
+Omega =0
 E0 = 10 # Acoustic energy density 
 f1 = 2*(rhop-rhom)/(2*rhop+rhom)
 f = 2*10**6
@@ -81,9 +81,9 @@ def grid(Np,sep,noise):
 def rand(Np,noise):
 	# random
 	for n in range(Np):
-		for coord in [0,1]:
+		for coord in [0,1,2]:
 			pos[n,0,coord] = (np.random.rand()-0.5)*noise
-	pos[n,0,2] = 0 #initialize in trapping plane
+	#pos[n,0,2] = 0 #initialize in trapping plane
 	ics = 'rand'
 	return pos,ics
 def aligned(Np,xs,ys,zs):
@@ -95,9 +95,9 @@ def aligned(Np,xs,ys,zs):
 #pos,ics  = chain(Np, 5*a, 15*a )
 #pos,ics  = far  (Np, 0*a, 20*a )
 #pos,ics  = grid (Np, 3*a, 0.1*a)
-pos,ics  = rand (Np,      40*a )
+pos,ics  = rand (Np,      10*a )
 
-filename = 'Np'+str(Np)+'Nt'+str(Nt)+'dt'+str(dt)+ics+'.npy'
+filename = 'Np'+str(Np)+'Nt'+str(Nt)+'dt'+str(dt)+'ic'+ics+'O'+str(Omega)+'.npy'
 	
 #def Bjerknes(dx,dy,dz,h): ## Old version, this one might be either entirely or partially wrong, will rewrite in a cleaner way
 	## Calculate Bjerknes force DUE to particle i at height h above trapping plane (z=0) on particle j.

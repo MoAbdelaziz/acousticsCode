@@ -5,7 +5,7 @@ import pylab as plt
 ### Parameters ###
 lam = 1.          # wavelength (define as unity)
 k   = 2*np.pi/lam # wavenumber
-z   = 5	           # Distance from P0 to P1 in wavelengths
+z   = 49.5	           # Distance from P0 to P1 in wavelengths
 # P0 is the diffraction plane and P1 is the imaging plane
 
 ### Generate Scalar Field in Plane P0 ###
@@ -46,7 +46,7 @@ def twoSlits(x0,y0,slitWidth,slitHeight,sep):
 
 u0 = twoHoles(x0[:,None],y0[None,:],.2,1)
 #u0 = threeHoles(x0[:,None],y0[None,:],.1,1)
-u0 = twoSlits(x0[:,None],y0[None,:],.2,5,1)
+#u0 = twoSlits(x0[:,None],y0[None,:],.2,5,1)
 ### Generate Results in Plane P1 ###
 
 x1  = np.linspace(-P1L/2,P1L/2,P1N)
