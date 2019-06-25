@@ -1,0 +1,81 @@
+Added process.py for saving and plotting data
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Committer: Mohammed Abdelaziz <maa643@pd331.physics.nyu.edu>
+#
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   process.py
+#
+# Changes not staged for commit:
+#   (use "git add/rm <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	deleted:    ../../RotationRate.ipynb
+#	deleted:    ../../qacam-master/.DS_Store
+#	deleted:    ../../qacam-master/.gitignore
+#	deleted:    ../../qacam-master/Makefile
+#	deleted:    ../../qacam-master/QDS345/DS345.py
+#	deleted:    ../../qacam-master/QDS345/DS345Fake.py
+#	deleted:    ../../qacam-master/QDS345/DS345Settings_UI.py
+#	deleted:    ../../qacam-master/QDS345/DS345Settings_UI.ui
+#	deleted:    ../../qacam-master/QDS345/Makefile
+#	deleted:    ../../qacam-master/QDS345/QDS345Settings.py
+#	deleted:    ../../qacam-master/QDS345/__init__.py
+#	deleted:    ../../qacam-master/QPolargraph/.DS_Store
+#	deleted:    ../../qacam-master/QPolargraph/Makefile
+#	deleted:    ../../qacam-master/QPolargraph/NOTES
+#	deleted:    ../../qacam-master/QPolargraph/Polargraph.py
+#	deleted:    ../../qacam-master/QPolargraph/PolargraphFake.py
+#	deleted:    ../../qacam-master/QPolargraph/Polargraph_UI.py
+#	deleted:    ../../qacam-master/QPolargraph/Polargraph_UI.ui
+#	deleted:    ../../qacam-master/QPolargraph/QPolargraphSettings.py
+#	deleted:    ../../qacam-master/QPolargraph/__init__.py
+#	deleted:    ../../qacam-master/QPolargraph/acam2/acam2.ino
+#	deleted:    ../../qacam-master/QPolargraph/acam2/acam2.ino~
+#	deleted:    ../../qacam-master/QSR830/Makefile
+#	deleted:    ../../qacam-master/QSR830/QSR830Settings.py
+#	deleted:    ../../qacam-master/QSR830/SR830.py
+#	deleted:    ../../qacam-master/QSR830/SR830Fake.py
+#	deleted:    ../../qacam-master/QSR830/SR830Settings_UI.py
+#	deleted:    ../../qacam-master/QSR830/SR830Settings_UI.ui
+#	deleted:    ../../qacam-master/QSR830/__init__.py
+#	deleted:    ../../qacam-master/Qacam.py
+#	deleted:    ../../qacam-master/QacamScan.py
+#	deleted:    ../../qacam-master/Qacam_UI.py
+#	deleted:    ../../qacam-master/Qacam_UI.ui
+#	deleted:    ../../qacam-master/README.md
+#	deleted:    ../../qacam-master/__init__.py
+#	deleted:    ../../qacam-master/common/Configure.py
+#	deleted:    ../../qacam-master/common/QSettingsWidget.py
+#	deleted:    ../../qacam-master/common/SerialDevice.py
+#	deleted:    ../../qacam-master/common/__init__.py
+#	deleted:    ../../qacam-master/icons/256x256.png
+#	deleted:    ../../qacam-master/tasks/Task.py
+#	deleted:    ../../qacam-master/tasks/TaskManager.py
+#	deleted:    ../../rotatingSpheres.py
+#	deleted:    ../../rotatingSpheres.py~
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	../.DS_Store
+#	../.gitignore
+#	../Makefile
+#	../QDS345/
+#	../QPolargraph/
+#	../QSR830/
+#	../Qacam.py
+#	../QacamScan.py
+#	../Qacam_UI.py
+#	../Qacam_UI.ui
+#	../README.md
+#	../__init__.py
+#	../common/
+#	../icons/
+#	plotResults.py~
+#	process.py~
+#	../tasks/

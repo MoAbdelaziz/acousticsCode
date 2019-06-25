@@ -1,0 +1,96 @@
+from __future__ import division 
+
+import numpy as np
+import pylab as plt
+
+# Account for 2 forces:
+# 1) Acoustic interaction between two particles, which is attractive when both are in the 
+# trapping plane, but repulsive for other arrangements
+# 2) Advection rotation due to particle rotation
+
+Np = 2 # Number of particles
+Nt = 10000 # Number of time steps
+dt = .001 # currently in seconds... estimate for typical time taken to travel one particle radius
+
+a = 1.6*10**(-6) # particle radius, everything in SI units for now
+rhom = 1000
+rhop = 1180 
+etam = 10**(-3)
+cm = 1500
+cp = 1350
+Omega =1
+E0 = 10 # Acoustic energy density 
+f1 = 2*(rhop-rhom)/(2*rhop+rhom)
+f = 2*10**6
+omega = 2 *np.pi * f
+k = omega/cm
+
+pos = np.zeros((Np,Nt+1,3)) # Position array
+#z: plane wave propagation direction
+#y: torque axis
+#x: Other axis in levitation plane
+
+# For now, take first particle at origin and just manually position the other one 
+pos[1,0,:] = [a,0,3*a]
+def Bjerknes(dx,dy,dz,h):
+	# Calculate Bjerknes force DUE to particle i at height h above trapping plane (z=0) on particle j.
+					# Acoustic interaction force
+				# First code just the 1/(kr)^3 term
+	prefac = np.nan_to_num(a**6 * E0 * f1**2 * np.pi * np.cos(h*k)/(2 * drho * r**7))
+				
+	Fsb0 =np.nan_to_num( r**2 * np.cos(k*(dz-h)) * (k*r * drho * (1+3*np.cos(2*theta)) * np.sin(k*r) + 3 * np.cos(k*r)*(drho + 3 *drho * np.cos(2*theta) + 2 * dz * np.sin(2*theta))))
+						
+	Fsbx = Fsb0 *dx
+	Fsby = Fsb0 *dy
+	
+	Fsbz = np.nan_to_num(r**2 * drho * ( (dz*np.cos(k*(dz-h))*(3*np.cos(k*r)*(r**2-4*drho**2+3*r**2*np.cos(2*theta)) + k*r**3
+			*(1+3*np.cos(2*theta))*np.sin(k*r)))/(r**2) + k*r**2*np.cos(k*r)*(1+3*np.cos(2*theta))*np.sin(k*(dz-h))))
+	
+	Fsb = prefac*np.array([Fsbx,Fsby,Fsbz])
+	
+	Vsb = Fsb/(6*np.pi*etam*a) 
+	
+	return Vsb
+	
+	
+for ti in range(Nt):
+	t = ti*dt
+	pos[:,ti+1,:] = pos[:,ti,:]
+	for i in range(Np):
+		for j in range(i,Np): #Avoid double counting and just be sure to calculate reciprocal force as well 
+			if i!=j:
+				# Calculate x,y,z differences
+				dr = pos[j,ti,:] - pos[i,ti,:]
+				dx = dr[0]
+				dy = dr[1]
+				dz = dr[2]
+				drho = np.sqrt(dx**2+dy**2)
+				
+				hi = pos[i,ti,2] # if z=0 is the trapping plane, h is where the potential-generating sphere is located
+				                # along z ( I think ).
+				hj = pos[j,ti,2]
+				
+				# Calculate other coordinates
+				r = np.linalg.norm(dr)
+				theta = np.arctan2(np.sqrt(dx**2+dy**2),dz)
+				psi = np.arctan2(np.sqrt(dz**2+dx**2),dy)
+				
+				# Flow velocity corresponding to advected rotational flow
+				Vadv = np.nan_to_num(  (a**3)/(r**2) * Omega * np.sin(psi)*(1/np.sqrt(dz**2+dx**2))*(-dx*np.array([0,0,1]) + dz *np.array([1,0,0]))  )
+				
+				Vsbj = Bjerknes( dx, dy, dz,hi) #Flow at j depends on height of i, and coordinates from i to j
+				Vsbi = Bjerknes(-dx,-dy,-dz,hj) # Vice verse 
+				
+				Vadv =0
+				
+				pos[j,ti+1,:] += ( Vadv + Vsbj)*dt
+				pos[i,ti+1,:] += (-Vadv + Vsbi)*dt #negate Vadv because it's calculated for i on j, 
+		
+
+# Plot test results
+plt.figure()
+plt.plot(pos[0,:,0],pos[0,:,2])
+plt.plot(pos[1,:,0],pos[1,:,2])
+plt.show()
+	
+
