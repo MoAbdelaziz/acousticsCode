@@ -9,7 +9,11 @@ import re
 
 Writer = animation.writers['ffmpeg']
 writer = Writer(fps = 15, metadata=dict(artist='Me'),bitrate=1800)
+<<<<<<< HEAD
 fn = 'Np40Nt10000dt0.01icrandO20.npy'
+=======
+fn = 'Np20Nt10000dt0.01icrandO0.npy'
+>>>>>>> 42b30dc13fb715784e247f968d4da1caeed37429
 
 
 a = 1.6*10**(-6)# particle radius, everything in SI units for now
