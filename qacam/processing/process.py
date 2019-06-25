@@ -97,6 +97,6 @@ def testData():
 	return testData
 
 if __name__ == "__main__":
-	f = np.load('test.npy')
-	plotData(f,100)
+	f = np.load('2019-06-07_N6.npy')
+	plotData(f,200,intensityScale='linear')
 
