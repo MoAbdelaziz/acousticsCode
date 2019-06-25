@@ -168,7 +168,11 @@ class SerialDevice(object):
             Available data from serial port
         '''
         str = self.ser.read_until(terminator=self.eol)
+<<<<<<< HEAD
 	str = str.decode().strip()
+=======
+        str = str.decode().strip()
+>>>>>>> d6d7cb4c08c4a4369767d03b83bf9df79607c0eb
         logger.debug('read: {}'.format(str))
         return str
 
