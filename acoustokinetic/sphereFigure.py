@@ -83,6 +83,7 @@ fig.tight_layout()
 
 
 ## Using Mayavi2/mlab instead of matplotlib/mplot3d ##
+mlab.figure(bgcolor=(1,1,1))
 res=100 # sparseness of wireframe relative to full surface data. Higher number, more sparse
 trap = mlab.mesh(xG,yG, field (rC (xG,yG ) ) ,scalars =  phase(thetaC(xG,yG))/(2*np.pi), colormap = 'hsv')
 trapBacking = mlab.mesh(xG,yG, field (rC (xG,yG ) )-0.01 ,color=(0,0,0) )
