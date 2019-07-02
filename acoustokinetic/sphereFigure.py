@@ -86,9 +86,13 @@ fig.tight_layout()
 mlab.figure(bgcolor=(1,1,1))
 res=100 # sparseness of wireframe relative to full surface data. Higher number, more sparse
 trap = mlab.mesh(xG,yG, field (rC (xG,yG ) ) ,scalars =  phase(thetaC(xG,yG))/(2*np.pi), colormap = 'hsv')
-trapBacking = mlab.mesh(xG,yG, field (rC (xG,yG ) )-0.01 ,color=(0,0,0) )
+#trapBacking = mlab.mesh(xG,yG, field (rC (xG,yG ) )-0.01 ,color=(0,0,0) )
 #trapFrame = mlab.mesh(xG[0::res,0::res],yG[0::res,0::res], field (rC (xG,yG )[0::res,0::res] ) ,color = (0,0,0) , representation = 'wireframe', mode='axes',opacity=.1)
 #trapFrame = mlab.surf(xG[0::res,0::res],yG[0::res,0::res], field (rC (xG,yG )[0::res,0::res] ))
+
+#radiusLine = mlab.plot3d([x0+R,x0+R],[y0+R,y0+R],[z0,z0+R],color=(0,0,0) ) # Draw radius of the sphere
+sphere = mlab.mesh(x,y,z, color=(1,1,1) )
+mlab.view(distance=20)
 drawNum = int(num/res)
 for i in range(0,drawNum): #Just draw num/res lines for a custom square gridding...
 	xPoints1 = np.ones(drawNum)*i*(xRange/drawNum)-xRange/2
@@ -100,7 +104,11 @@ for i in range(0,drawNum): #Just draw num/res lines for a custom square gridding
 	yPoints2 = np.ones(drawNum)*i*(yRange/drawNum)-yRange/2
 	zPoints2 = field(rC(xPoints2,yPoints2))
 	mlab.plot3d(xPoints2 , yPoints2  , zPoints2,color=(0,0,0),opacity=0.1)
-sphere = mlab.mesh(x,y,z, color=(1,1,1) )
+
 #mlab.axes(extent=[-xRange/2,xRange/2,-yRange/2,yRange/2,0,field(rC(xRange/2,yRange/2))])
+
+
 mlab.savefig(filename = 'harmonicVortex.png')
+mlab.view(distance=20)
+
 mlab.show()
